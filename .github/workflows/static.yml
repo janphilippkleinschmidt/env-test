@@ -9,23 +9,30 @@ env:
   STATUS: ${{ vars.STATUS || 'down' }} # Default to 'down' if STATUS is not set
 
 permissions:
-  contents: write # Allow writing to the repository
-  id-token: write # Required for OIDC token generation
+  contents: write
+  pages: write
+  id-token: write
 
 jobs:
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
 
       - name: Replace placeholder with STATUS
         run: |
           sed -i "s/{{ STATUS }}/$STATUS/g" index.html
 
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+          force_orphan: true
