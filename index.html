@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Status Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+      margin: 0;
+    }
+    .status {
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .up {
+      color: green;
+    }
+    .down {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="status">
+    <h1>System Status: <span id="status">Loading...</span></h1>
+  </div>
+
+  <script>
+    // Fetch the status from the environment variable
+    const status = "{{ STATUS }}"; // This will be replaced by the GitHub Actions workflow
+    const statusElement = document.getElementById("status");
+
+    if (status === "up") {
+      statusElement.textContent = "UP";
+      statusElement.classList.add("up");
+    } else if (status === "down") {
+      statusElement.textContent = "DOWN";
+      statusElement.classList.add("down");
+    } else {
+      statusElement.textContent = "UNKNOWN";
+    }
+  </script>
+</body>
+</html>
