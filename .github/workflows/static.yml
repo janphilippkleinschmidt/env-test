@@ -23,9 +23,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v2
-
       - name: Replace placeholder with STATUS
         run: |
           sed -i "s/{{ STATUS }}/$STATUS/g" index.html
