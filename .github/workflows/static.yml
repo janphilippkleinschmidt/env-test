@@ -1,0 +1,27 @@
+name: Deploy Status Page
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  STATUS: ${{ vars.STATUS || 'down' }} # Default to 'down' if STATUS is not set
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Replace placeholder with STATUS
+        run: |
+          sed -i "s/{{ STATUS }}/$STATUS/g" index.html
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
