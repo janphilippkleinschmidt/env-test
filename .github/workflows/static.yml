@@ -8,6 +8,9 @@ on:
 env:
   STATUS: ${{ vars.STATUS || 'down' }} # Default to 'down' if STATUS is not set
 
+permissions:
+  contents: write # Allow writing to the repository
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
